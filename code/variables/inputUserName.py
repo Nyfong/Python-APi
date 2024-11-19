@@ -2,7 +2,7 @@
 import time
 name = input("Please enter your name\n:")
 gussing_name = '* lemme guess your name'
-print(gussing_name, end=" ")
+print(gussing_name)
 # adding 2 seconds time delay
 for i in range(3):
     print('.', end='')

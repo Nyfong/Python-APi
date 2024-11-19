@@ -1,2 +1,3 @@
 greeting = 'hello'
-print(greeting," world")
+greeting2 = greeting +'jannie'
+print(greeting2)

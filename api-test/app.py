@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return "Hello, Flask!"
 
-@app.get("/") 
+@app.get("/aaa") 
 def test(): 
 	return {"msg": "Hello World!"}
 

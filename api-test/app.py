@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask , request
 from companies import your_small_companies
 app = Flask(__name__)
 
@@ -27,18 +27,16 @@ def get_com(name):
             return company
     return {"msg": "Company not found"}, 404
 
-# companies = [
-#     {
-#         "name": "ABSARA",
-#         "items": [
-#             {
-#                 "name": "pen",
-#                 "price": 15.99
-#             },
-#             {
-#                 "name": "book",
-#                 "price": 11
-#             }
-#         ]
-#     }
-# ]
+
+#post the item in the company
+@app.post("/company/<string:name>/item")
+def create_item(name):
+    request_data = request.get_json()
+    for company in your_small_companies:
+        if company["name"] == name:
+            new_item = {"name": request_data["name"], "price": request_data["price"]}
+            company["items"].append(new_item)
+            return new_item, 201
+    return {"msg": "Company not found"}, 404
+
+

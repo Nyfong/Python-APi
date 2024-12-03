@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from models import db, Terms
+from models import db, Terms , GeneralLedgerArccounts
 #Create an instance of the Flask application
 app = Flask(__name__)
 
@@ -25,6 +25,23 @@ def get_terms():
             "due_days" : v.terms_due_days
         }
         ls.append(te)
+    return ls
+#get general ledger account
+@app.get('/generalaccounts')
+def get_generalaccount():
+    t = db.session.query(GeneralLedgerArccounts)\
+        .with_entities(GeneralLedgerArccounts.account_number, GeneralLedgerArccounts.account_description).all()
+
+    ls = []
+    for v in t:
+        # `v` is a tuple, where v[0] is account_number and v[1] is account_description
+        te = {
+            "account_number": v[0],  # Access the actual value from the tuple
+            "description": v[1]      # Access the actual value from the tuple
+        }
+        ls.append(te)
+
+    # Return the list of dictionaries as a response
     return ls
 
 #Run the Flask app

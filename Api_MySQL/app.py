@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from models import db, Terms , GeneralLedgerArccounts
+from models import db, Terms , GeneralLedgerArccounts, Invoices
 #Create an instance of the Flask application
 app = Flask(__name__)
 
@@ -43,6 +43,29 @@ def get_generalaccount():
 
     # Return the list of dictionaries as a response
     return ls
+
+#invoice table
+@app.get('/invoices')
+def get_invoices():
+    t = db.session.query(Invoices)\
+        .with_entities(Invoices.invoice_id, Invoices.invoice_number, Invoices.invoice_date, Invoices.invoice_total ,  Invoices.payment_total ,Invoices.credit_total, Invoices.terms_id, Invoices.invoice_due_date, Invoices.payment_date)
+
+    ls=[]
+    for v in t:
+        te = {
+            "id" : v.invoice_id,
+            "description" : v.invoice_number,
+            "invoice_date" : v.invoice_date,
+            "invoice_total" : v.invoice_total,
+            "payment_total" : v.payment_total,
+            "credit_total" : v.credit_total,
+            "terms_id" : v.terms_id,
+            "invoice_due_date" : v.invoice_due_date,
+            "payment_date" : v.payment_date
+        }       
+        ls.append(te)
+    return ls
+
 
 #Run the Flask app
 if __name__=='__main__':
